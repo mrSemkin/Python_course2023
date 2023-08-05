@@ -20,12 +20,13 @@ def saddle_point(row, col, matrix):
     return False
 
 
-def find_zero_row(matrix):
-    list_rows = []
-    for i, row in enumerate(matrix):
-        if any(item == 0 for item in row):
-            list_rows.append([i, row])
-    # print(list_rows)
+def find_row_with_zero(matrix):
+    list_rows = [[i, row] for i, row in enumerate(matrix) if any(item == 0 for item in row)]
+    # list_rows = []
+    # for i, row in enumerate(matrix):
+    #     if any(item == 0 for item in row):
+    #         list_rows.append([i, row])
+    # # print(list_rows)
     return list_rows
 
 
@@ -65,23 +66,29 @@ def main():
     print_matrix(matrix)
     print('')
 
-    list_row = find_zero_row(matrix)
+    list_row = find_row_with_zero(matrix)
 
-    print('кількість від\'ємних елементів у рядках, які мають хоч би один нулевой елемент;')
-    print('[рядок, кількість]')
+    print('Number of negative elements in rows that have at least one zero element:')
+    print('[Row, Column]')
     print_matrix(calc_count_negative_items(list_row))
 
-    print('Номера рядків та стовбців седловых крапок матриці.')
-    saddle_point_table = []
+    print('Saddle point in matrix.')
+    saddle_point_table = find_all_saddle_point(matrix)
+
+    if len(saddle_point_table) > 0:
+        print('[Row, Column, Value]')
+        print_matrix(saddle_point_table)
+    else:
+        print('Matrix has no saddle points')
+
+
+def find_all_saddle_point(matrix):
+    point_list = []
     for n_row, row in enumerate(matrix):
         for n_col in range(len(row)):
             if saddle_point(n_row, n_col, matrix):
-                saddle_point_table.append([n_row, n_col, matrix[n_row][n_col]])
-    if len(saddle_point_table) > 0:
-        print('[рядок, стовбчик, значеня]')
-        print_matrix(saddle_point_table)
-    else:
-        print('Матриця не має седлових крапок')
+                point_list.append([n_row, n_col, matrix[n_row][n_col]])
+    return point_list
 
 
 if __name__ == '__main__':

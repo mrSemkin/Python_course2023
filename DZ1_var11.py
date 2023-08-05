@@ -4,6 +4,8 @@
 # Найти количество строк, среднее арифметическое элементов которых, меньше заданной величины.
 import random
 
+ARITHMETIC_MEDIUM = 5
+
 
 def get_rnd_matrix(min_val, max_val, row, col):
     return [[random.randint(min_val, max_val) for _ in range(col)] for _ in range(row)]
@@ -12,7 +14,7 @@ def get_rnd_matrix(min_val, max_val, row, col):
 def validate_matrix(matrix):
     col_max = len(matrix[0])
 
-    # перевірка даних
+    # verification of data
     if len(matrix) > len(matrix[0]):
         return False
 
@@ -33,34 +35,30 @@ def print_matrix(matrix):
 
 
 def get_triangular_matrix(matrix):
-    row_max = len(matrix)
+    number_of_rows = len(matrix)
 
-    # робимо трикутну
+    # make a triangular matrix
     col = 0
-    for cur_row in range(row_max - 1):
-        if not swap_rows_with_zeroes(cur_row, col, matrix):
-            for row in range(cur_row + 1, row_max):
+    for cur_row in range(number_of_rows - 1):
+        if not swap_rows_with_zero(cur_row, col, matrix):
+            for row in range(cur_row + 1, number_of_rows):
                 k = matrix[row][col] / matrix[cur_row][col]
                 matrix[row] = sum_row(k, matrix[cur_row], matrix[row])
         col += 1
 
 
-def get_num_rows_more_than_medium(matrix, medium):
-    col_max = len(matrix[0])
-    count = 0
+def get_num_rows_more_than_medium(matrix, average_val):
+    count = sum([1 for row in matrix if average_val > (sum(row) / len(matrix[0]))])
 
-    for row in matrix:
-        if medium > (sum(row) / col_max):
-            count += 1
-    print('\nкількість рядків, среднее арифметическое элементов яких, меньше за', medium, '=', count)
+    print(f'\nThe number of rows whose arithmetic average is lower than {average_val} = {count}')
 
 
-def swap_rows_with_zeroes(row_start, col, matrix):
-    for col in range(col, len(matrix)):  # col може бути більше row
+def swap_rows_with_zero(row_start, col, matrix):
+    for cur_col in range(col, len(matrix)):  # find row value in column "col" not equal zero, if all zero find in next column
         for row in range(row_start, len(matrix)):
-            # перевірка на "0" для розрахунка коефіціенту -
-            # сортируэмо строки масиву якщо "0"
-            if matrix[row][col] != 0:
+            # view the value in the "col" column
+            # one found row where value not zero move up in position "row_start"
+            if matrix[row][cur_col] != 0:
                 matrix[row_start], matrix[row] = matrix[row], matrix[row_start]
                 return False
         return True
@@ -75,12 +73,12 @@ def main(matrix, medium):
         print('Bad data')
         return False
 
-    print('\nпочаткова матриця')
+    print('\nOrigin matrix')
     print_matrix(matrix)
 
     get_triangular_matrix(matrix)
 
-    print('\nспрощена трикутна матриця')
+    print('\nSimplified triangular matrix')
     print_matrix(matrix)
 
     get_num_rows_more_than_medium(matrix, medium)
@@ -90,6 +88,5 @@ def main(matrix, medium):
 
 if __name__ == '__main__':
     rectangle_matrix = get_rnd_matrix(-10, 10, 5, 6)
-    ARITHMETIC_MEDIUM = 5
 
     main(rectangle_matrix, ARITHMETIC_MEDIUM)

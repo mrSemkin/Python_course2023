@@ -91,11 +91,8 @@ def main():
     print_matrix(matrix)
 
     line = find_negative_row(matrix)
-    if line == -1:
-        print('Matrix does not have line with only negative values.')
-    else:
-        print('First Line with only negative values is row', line)
 
+    print('Matrix does not have line with only negative values.') if line == -1 else print(f'First Line with only negative values is row {line}')
 
 if __name__ == '__main__':
     main()
