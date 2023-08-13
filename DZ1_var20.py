@@ -22,15 +22,12 @@ def saddle_point(row, col, matrix):
 
 def find_row_with_zero(matrix):
     list_rows = [[i, row] for i, row in enumerate(matrix) if any(item == 0 for item in row)]
-    # list_rows = []
-    # for i, row in enumerate(matrix):
-    #     if any(item == 0 for item in row):
-    #         list_rows.append([i, row])
-    # # print(list_rows)
     return list_rows
 
 
 def calc_count_negative_items(list_rows):
+    x = [(i, len([j for j in row if j < 0])) for i, row in list_rows]
+
     for row in list_rows:
         count = 0
         for item in row[1]:
@@ -81,13 +78,12 @@ def main():
     else:
         print('Matrix has no saddle points')
 
-
 def find_all_saddle_point(matrix):
     point_list = []
     for n_row, row in enumerate(matrix):
         for n_col in range(len(row)):
             if saddle_point(n_row, n_col, matrix):
-                point_list.append([n_row, n_col, matrix[n_row][n_col]])
+                point_list.append((n_row, n_col, matrix[n_row][n_col]))
     return point_list
 
 

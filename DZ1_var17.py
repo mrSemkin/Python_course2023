@@ -21,8 +21,10 @@ def get_rnd_matrix(min_val, max_val, row, col):
 
 
 def sort_diagonal(arr):
-    diagonal = [item[n] for n, item in enumerate(arr)]
-    diagonal.sort(reverse=True)
+    diagonal = sorted([item[n] for n, item in enumerate(arr)], reverse=True)
+    # diagonal = [item[n] for n, item in enumerate(arr)]
+    # diagonal.sort(reverse=True)
+
     for n, val in enumerate(diagonal):
         arr[n][n] = val
 
@@ -35,28 +37,10 @@ def restruct_matrix(matrix, min_diagonal_val):
         for j in range(matrix_size):
             if i == j:
                 continue
-            else:
-                if matrix[i][j] > min_diagonal_val:
-                    matrix[matrix_size - 1][matrix_size - 1], matrix[i][j] = matrix[i][j], matrix[matrix_size - 1][
-                        matrix_size - 1]
-                    min_diagonal_val = sort_diagonal(matrix)
-
-
-def find_negative_row1(matrix):
-    line_number = 1
-    flag = False
-    for row in matrix:
-        if flag:
-            break
-        for item in row:
-            if item >= 0:
-                line_number += 1
-                flag = False
-                break
-            else:
-                flag = True
-
-    return line_number if flag else -1
+            elif matrix[i][j] > min_diagonal_val:
+                matrix[matrix_size - 1][matrix_size - 1], matrix[i][j] = matrix[i][j], matrix[matrix_size - 1][
+                    matrix_size - 1]
+                min_diagonal_val = sort_diagonal(matrix)
 
 
 def find_negative_row(matrix):
@@ -92,7 +76,11 @@ def main():
 
     line = find_negative_row(matrix)
 
-    print('Matrix does not have line with only negative values.') if line == -1 else print(f'First Line with only negative values is row {line}')
+    msg = 'Matrix does not have line with only negative values.'
+    positive_msg = f'First Line with only negative values is row {line}'
+
+    print(msg if line == -1 else positive_msg)
+
 
 if __name__ == '__main__':
     main()

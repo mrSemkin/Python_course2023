@@ -12,14 +12,15 @@ def get_rnd_matrix(min_val, max_val, row, col):
 
 
 def validate_matrix(matrix):
-    col_max = len(matrix[0])
+    num_cols = len(matrix[0])
+    num_rows = len(matrix)
 
     # verification of data
-    if len(matrix) > len(matrix[0]):
-        return False
+    if num_rows > num_cols:
+        return False, 'number of rows is not equal to number of cols'
 
     for row in matrix:
-        if col_max != len(row):
+        if num_cols != len(row):
             return False
         for col in row:
             if not isinstance(col, (int, float)):
@@ -28,10 +29,13 @@ def validate_matrix(matrix):
 
 
 def print_matrix(matrix):
-    for row in matrix:
-        for col in row:
-            print(str(col).rjust(8), end='')
-        print('')
+    # s = ''
+    # for row in matrix:
+    #     for col in row:
+    #         s += str(col).rjust(8)
+    #     s += '\n'
+
+    print('\n'.join([''.join([str(col).rjust(8) for col in row]) for row in matrix]))
 
 
 def get_triangular_matrix(matrix):
@@ -54,14 +58,15 @@ def get_num_rows_more_than_medium(matrix, average_val):
 
 
 def swap_rows_with_zero(row_start, col, matrix):
-    for cur_col in range(col, len(matrix)):  # find row value in column "col" not equal zero, if all zero find in next column
+    # find row value in column "col" not equal zero, if all zero find in next column
+    for cur_col in range(col, len(matrix)):
         for row in range(row_start, len(matrix)):
             # view the value in the "col" column
             # one found row where value not zero move up in position "row_start"
-            if matrix[row][cur_col] != 0:
+            if matrix[row][cur_col]:
                 matrix[row_start], matrix[row] = matrix[row], matrix[row_start]
                 return False
-        return True
+    return True
 
 
 def sum_row(k, row1, row2):
