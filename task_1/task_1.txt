@@ -1,0 +1,29 @@
+You write some data preparation tool which will be used for building diagrams. Prepare a class which will grab some movie data from themoviedb by a URL template:
+https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&sort_by=popularity.desc&page={!!!!}
+Information about genres could be fetched by a
+
+URL: https://api.themoviedb.org/3/genre/movie/list?language=en
+You must remember about authentication. Apply headers:
+{
+    "accept": "application/json",
+    "Authorization": "Bearer {your token}"
+}
+Number of pages which user wants to fetch is assigned during the class creation
+The class should contain methods which provide to end user such data:
+1.	Fetch the data from desired amount of pages
+2.	Give a user all data
+3.	All data about movies with indexes from 3 till 19 with step 4
+4.	Name of the most popular title
+5.	Names of titles which has in description key words which a user put as parameters
+6.	Unique collection of present genres (the collection should not allow inserts)
+7.	Delete all movies with user provided genre
+8.?	Names of most popular genres with numbers of time they appear in the data
+9.	Collection of film titles grouped in pairs by common genres (the groups should not allow inserts)
+10.	Return initial data and copy of initial data where first id in list of film genres was replaced with 22
+11.	Collection of structures with part of initial data which has the following fields:
+•	Title
+•	Popularity (with 1 decimal point with maximum precision)
+•	Score (vote_average without fractional part)
+•	Last_day_in_cinema (2 months and 2 weeks after the release_date)
+Collection should be sorted by score and popularity
+12.	Write information from previous step to a csv file using path provided by user
